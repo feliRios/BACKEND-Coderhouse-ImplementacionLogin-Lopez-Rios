@@ -10,7 +10,7 @@ routerAuth.post("/login", async (req, res) => {
     const user = await um.getUser(email, password);
     if(user){
       req.session.user = user;
-      return res.redirect("/api/user/profile");
+      return res.redirect("/api/product");
     }
     res.status(400).send("Credenciales invalidas.");
   } catch(err) {
@@ -36,9 +36,10 @@ routerAuth.post("/register", async (req, res) => {
 routerAuth.get("/logout", async (req, res) => {
   req.session.destroy((err) => {
     if(!err){
-      res.redirect("/login");
+      res.redirect("/api/user/login");
+    } else {
+      res.status(500).send("Error en logout.");
     }
-    res.status(500).send("Error en logout.");
   });
 });
 

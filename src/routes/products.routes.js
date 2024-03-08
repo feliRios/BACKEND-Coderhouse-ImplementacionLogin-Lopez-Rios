@@ -20,7 +20,8 @@ routerProd.get("/", async (req, res) => {
     res.render("products", {
       "products": products,
       "totalPages": products["totalPages"],
-      "style": "products.css"
+      "style": "products.css",
+      "user": req.session.user
     });
     // res.send({
     //   payload: products,

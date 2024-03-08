@@ -4,6 +4,8 @@ import { __dirname } from "./utils.js";
 import handlebars from "express-handlebars";
 import http from "http";
 import { Server } from "socket.io";
+import session from "express-session";
+import MongoStore from "connect-mongo";
 
 
 // Importaciones de rutas y managers
@@ -20,6 +22,17 @@ const PORT = 8080 || process.env.PORT;
 
 // Middleware para enviar y recibir JSON
 app.use(express.json());
+app.use(express.urlencoded({extended: false}));
+
+// Middleware para utilizar sessions
+app.use(session({
+  store: MongoStore.create({
+    mongoUrl: "mongodb+srv://felipetomas:generic123@fcluster.q0b3m8s.mongodb.net/ecommerce"
+  }),
+  secret: "coderhouse",
+  resave: true,
+  saveUninitialized: true
+}))
 
 // Middleware para servicio de archivos estaticos
 app.use(express.static(__dirname+"/public"));
@@ -41,7 +54,7 @@ app.use("/api/session", routerAuth);
 
 app.get("/", (req, res) => {
   // ENDPOINT del home (pagina de inicio)
-  res.send(`<h1 style="background-color: #49c; text-align: center; margin-top: 50px;">Pagina principal</h1>`)
+  res.redirect("/api/user/login")
 });
 
 server.listen(PORT, () => {

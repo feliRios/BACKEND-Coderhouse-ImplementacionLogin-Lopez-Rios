@@ -1,14 +1,15 @@
 import { userModel } from "../models/user.model.js";
 
 class UserManager {
-  async newUser({ first_name, last_name, age, email, password }){
+  async newUser({ first_name, last_name, age, email, password, role }){
     try {
       const newUser = await userModel.create({
         first_name,
         last_name,
         age,
         email,
-        password
+        password,
+        role
       });
       return newUser;
     } catch(err) {
